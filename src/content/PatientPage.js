@@ -23,6 +23,7 @@ import TCCCCard from './documentCards/TCCCCard'
 import ThirtyEightNintyNineForm from '../forms/3899/ThirtyEightNinetyNineForm'
 import NineLineForm from '../forms/9line/NineLineForm'
 import NineLineCard from './documentCards/NineLineCard'
+import AF3899Card from './documentCards/AF3899Card'
 
 function PatientActions(props) {
 
@@ -158,6 +159,9 @@ function DocumentCard(props) {
     }
     else if (name === "9 Line") {
         return <NineLineCard {...props} />
+    }
+    else if (name === "AF Form 3899") {
+        return <AF3899Card {...props} />
     }
 
     return (

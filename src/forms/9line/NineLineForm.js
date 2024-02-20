@@ -65,8 +65,6 @@ function NineLineForm(props) {
         }
     }, [doc])
 
-    console.log(viewOnly)
-
     function updateLocation(geolocation) {
         let lat = geolocation.coords.latitude
         let lon = geolocation.coords.longitude
@@ -115,12 +113,14 @@ function NineLineForm(props) {
                     <Divider>
                         Location of Pick-up Site
                     </Divider>
-                    <Button
-                        onClick={handleGetLocation}
-                        variant="contained"
-                    >
-                        Get Location
-                    </Button>
+                    {viewOnly ? null :
+                        <Button
+                            onClick={handleGetLocation}
+                            variant="contained"
+                        >
+                            Get Location
+                        </Button>
+                    }
                     <Row>
                         <TextField
                             label="Lat"
@@ -352,7 +352,7 @@ function NineLineForm(props) {
                 <Button
                     onClick={handleClose}
                 >
-                    {viewOnly ? "Cancel" : "Close"}
+                    {viewOnly ? "Close" : "Cancel"}
                 </Button>
                 {viewOnly ? null :
                     <Button

@@ -13,9 +13,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useLocalStorage } from 'usehooks-ts'
 
 // custom
-import NineLineForm from '../../forms/9line/NineLineForm';
+import ThirtyEightNintyNineForm from '../../forms/3899/ThirtyEightNinetyNineForm';
 
-function NineLineCard(props) {
+function AF3899Card(props) {
     const {
         lastModified,
         dodid,
@@ -24,7 +24,9 @@ function NineLineCard(props) {
 
     const [open, setOpen] = React.useState(false)
     const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
+    const [patients] = useLocalStorage("patients", [])
     const doc = docs[index]
+    let patient = patients[dodid]
     
     function remove() {
         let tempDocs = [...docs]
@@ -37,7 +39,7 @@ function NineLineCard(props) {
             <Card>
                 <CardHeader
                     avatar={<Avatar><DescriptionIcon fontSize="large" /></Avatar>}
-                    title="9 Line"
+                    title="AF Form 3899"
                     subheader={lastModified}
                 />
                 <CardActions>
@@ -62,13 +64,14 @@ function NineLineCard(props) {
                     </Tooltip>
                 </CardActions>
             </Card>
-            <NineLineForm
+            <ThirtyEightNintyNineForm
                 open={open}
                 close={() => setOpen(false)}
                 doc={doc}
+                patient={patient}
             />
         </Grid>
     )
 }
 
-export default NineLineCard
+export default AF3899Card
