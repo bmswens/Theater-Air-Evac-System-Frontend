@@ -15,7 +15,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, useParams } from 'react-router-dom'
 
 // custom
-import api from '../api'
 import { useLocalStorage } from 'usehooks-ts'
 import SelectFormDialog from '../components/SelectFormDialogs'
 import BlankTCCC from '../forms/blankTccc/BlankTCCC'
@@ -24,6 +23,8 @@ import ThirtyEightNintyNineForm from '../forms/3899/ThirtyEightNinetyNineForm'
 import NineLineForm from '../forms/9line/NineLineForm'
 import NineLineCard from './documentCards/NineLineCard'
 import AF3899Card from './documentCards/AF3899Card'
+import ImageForm from '../forms/img/ImageForm'
+import ImageCard from './documentCards/ImageCard'
 
 function PatientActions(props) {
 
@@ -83,6 +84,11 @@ function PatientActions(props) {
             />
             <NineLineForm
                 open={form === "9 Line"}
+                close={() => setForm([])}
+                dodid={patient.dodid}
+            />
+            <ImageForm
+                open={form === "Image"}
                 close={() => setForm([])}
                 dodid={patient.dodid}
             />
@@ -149,7 +155,8 @@ function PatientInfo(props) {
 function DocumentCard(props) {
     const {
         name,
-        lastModified
+        lastModified,
+        imgURL
     } = props
 
     // form selection
@@ -162,6 +169,9 @@ function DocumentCard(props) {
     }
     else if (name === "AF Form 3899") {
         return <AF3899Card {...props} />
+    }
+    else if (imgURL) {
+        return <ImageCard {...props} />
     }
 
     return (
@@ -192,10 +202,9 @@ function DocumentCard(props) {
 function PatientPage(props) {
 
     const { dodid } = useParams()
-    const [patients, setPatients] = useLocalStorage('patients', api.initialPatients)
+    const [patients, setPatients] = useLocalStorage('patients', [])
     const patient = patients[dodid]
-    const fallback = dodid === "0000001" ? api.georgeDocs : []
-    const [docs] = useLocalStorage(`${patient.dodid}-documents`, fallback)
+    const [docs] = useLocalStorage(`${patient.dodid}-documents`, [])
     let navigate = useNavigate()
 
     if (!patient) {

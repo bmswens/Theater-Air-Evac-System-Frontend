@@ -92,7 +92,10 @@ function ThirtyEightNintyNineForm(props) {
                 ...patient,
                 ...data,
                 physicanSig,
-                flightSig
+                flightSig,
+                af3899a: [],
+                af3899d: [],
+                af3899i: []
             }
         }
         setDocs([...docs, doc])

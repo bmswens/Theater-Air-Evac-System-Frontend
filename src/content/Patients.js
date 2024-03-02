@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom'
 
 // use hooks
 import { useLocalStorage } from 'usehooks-ts'
-import api from '../api'
 import NewPatientForm from '../forms/NewPatientForm'
 
 
@@ -88,7 +87,7 @@ function AddNewCard(props) {
 
 function Patients(props) {
 
-    const [patients] = useLocalStorage('patients', api.initialPatients)
+    const [patients] = useLocalStorage('patients', [])
     const [open, setOpen] = React.useState(false)
 
     return (
