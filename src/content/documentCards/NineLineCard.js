@@ -9,11 +9,9 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import FileOpenIcon from '@mui/icons-material/FileOpen'
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// local storage
-import { useLocalStorage } from 'usehooks-ts'
-
 // custom
 import NineLineForm from '../../forms/9line/NineLineForm';
+import useStorage from '../../api/useStorage';
 
 function NineLineCard(props) {
     const {
@@ -23,7 +21,7 @@ function NineLineCard(props) {
     } = props
 
     const [open, setOpen] = React.useState(false)
-    const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
     const doc = docs[index]
     
     function remove() {

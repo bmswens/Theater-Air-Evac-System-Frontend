@@ -7,7 +7,7 @@ import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle
 // dates
 import dayjs from 'dayjs'
 import ReactSignatureCanvas from 'react-signature-canvas'
-import { useLocalStorage } from 'usehooks-ts'
+import useStorage from '../../api/useStorage'
 
 const blank3899 = {
     status: "Active",
@@ -47,7 +47,7 @@ function ThirtyEightNintyNineForm(props) {
     let dob = dayjs(patient.dob)
     let age = now.diff(dob, 'year')
 
-    const [docs, setDocs] = useLocalStorage(`${patient.dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${patient.dodid}-documents`, [])
     const [data, setData] = React.useState(blank3899)
     const physicanSigRef = React.createRef()
     const flightSigRef = React.createRef()

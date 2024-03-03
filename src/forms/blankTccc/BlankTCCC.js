@@ -2,7 +2,7 @@
 import { Autocomplete, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
 import InjurySection from './InjurySection'
-import { useLocalStorage } from 'usehooks-ts'
+import useStorage from '../../api/useStorage'
 
 const emptyForm = {
     rosterNumber: '',
@@ -93,7 +93,7 @@ function BlankTCCC(props) {
     const [injuries, setInjuries] = React.useState([])
     const [injuryTitles, setInjuryTitles] = React.useState({})
     const [signsAndSymptoms, setSignsAndSymptoms] = React.useState(emptyForm.signsAndSymptoms[0])
-    const [docs, setDocs] = useLocalStorage(`${patient.dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${patient.dodid}-documents`, [])
 
     React.useEffect(() => {
         if (injuries.length === Object.keys(injuryTitles).length) {

@@ -15,7 +15,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, useParams } from 'react-router-dom'
 
 // custom
-import { useLocalStorage } from 'usehooks-ts'
 import SelectFormDialog from '../components/SelectFormDialogs'
 import BlankTCCC from '../forms/blankTccc/BlankTCCC'
 import TCCCCard from './documentCards/TCCCCard'
@@ -25,6 +24,7 @@ import NineLineCard from './documentCards/NineLineCard'
 import AF3899Card from './documentCards/AF3899Card'
 import ImageForm from '../forms/img/ImageForm'
 import ImageCard from './documentCards/ImageCard'
+import useStorage from '../api/useStorage'
 
 function PatientActions(props) {
 
@@ -202,9 +202,9 @@ function DocumentCard(props) {
 function PatientPage(props) {
 
     const { dodid } = useParams()
-    const [patients, setPatients] = useLocalStorage('patients', [])
+    const [patients, setPatients] = useStorage('patients', [])
     const patient = patients[dodid]
-    const [docs] = useLocalStorage(`${patient.dodid}-documents`, [])
+    const [docs] = useStorage(`${patient.dodid}-documents`, [])
     let navigate = useNavigate()
 
     if (!patient) {

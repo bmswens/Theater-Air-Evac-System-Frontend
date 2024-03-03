@@ -12,14 +12,12 @@ import BloodtypeIcon from '@mui/icons-material/Bloodtype';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// local storage
-import { useLocalStorage } from 'usehooks-ts'
-
 // custom
 import TCCC from '../../forms/tccc/TCCC'
 import AddVitalsForm from '../../forms/tccc/AddVitalsForm';
 import AddCirculationForm from '../../forms/tccc/AddCirculationForm';
 import AddMedForm from '../../forms/tccc/AddMedForm';
+import useStorage from '../../api/useStorage';
 
 function TCCCCard(props) {
     const {
@@ -33,7 +31,7 @@ function TCCCCard(props) {
     const [vitalOpen, setVitalOpen] = React.useState(false)
     const [circulationOpen, setCirculationOpen] = React.useState(false)
     const [medicationOpen, setMedicationOpen] = React.useState(false)
-    const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
     const doc = docs[index]
     
     function addVitals(data) {

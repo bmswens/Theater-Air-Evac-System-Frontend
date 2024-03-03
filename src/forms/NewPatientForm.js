@@ -4,11 +4,9 @@ import React from 'react'
 // MUI 
 import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from '@mui/material'
 
-// hooks
-import { useLocalStorage } from 'usehooks-ts'
-
 // custom
 import { DatePicker } from '@mui/x-date-pickers'
+import useStorage from '../api/useStorage'
 
 const defaultPatient = {
     firstName: '',
@@ -26,7 +24,7 @@ function NewPatientForm(props) {
         close
     } = props
 
-    const [patients, setPatients] = useLocalStorage('patients', [])
+    const [patients, setPatients] = useStorage('patients', [])
     const [patient, setPatient] = React.useState(defaultPatient)
 
     function handleClose() {

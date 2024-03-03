@@ -12,12 +12,10 @@ import NotesIcon from '@mui/icons-material/Notes'
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart'
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 
-// local storage
-import { useLocalStorage } from 'usehooks-ts'
-
 // custom
 import ThirtyEightNintyNineForm from '../../forms/3899/ThirtyEightNinetyNineForm';
 import AF3899A from '../../forms/3899/AF3899A';
+import useStorage from '../../api/useStorage';
 
 function AF3899Card(props) {
     const {
@@ -28,8 +26,8 @@ function AF3899Card(props) {
 
     const [open, setOpen] = React.useState(false)
     const [alphaOpen, setAlphaOpen] = React.useState(false)
-    const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
-    const [patients] = useLocalStorage("patients", [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
+    const [patients] = useStorage("patients", [])
     const doc = docs[index]
     let patient = patients[dodid]
     

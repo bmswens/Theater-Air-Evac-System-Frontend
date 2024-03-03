@@ -9,11 +9,9 @@ import ImageIcon from '@mui/icons-material/Image';
 import FileOpenIcon from '@mui/icons-material/FileOpen'
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// local storage
-import { useLocalStorage } from 'usehooks-ts'
-
 // custom
 import ImageForm from '../../forms/img/ImageForm';
+import useStorage from '../../api/useStorage';
 
 function ImageCard(props) {
     const {
@@ -23,7 +21,7 @@ function ImageCard(props) {
     } = props
 
     const [open, setOpen] = React.useState(false)
-    const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
     const doc = docs[index]
     
     function remove() {

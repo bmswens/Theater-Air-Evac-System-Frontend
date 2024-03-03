@@ -4,7 +4,7 @@ import React from 'react'
 
 // MUI Icons
 import UploadIcon from '@mui/icons-material/Upload';
-import { useLocalStorage } from 'usehooks-ts';
+import useStorage from '../../api/useStorage';
 
 
 function SneakyInput(props) {
@@ -32,7 +32,7 @@ function ImageForm(props) {
 
     const [imgURL, setImgURL] = React.useState(doc?.imgURL || null)
     const [name, setName] = React.useState(doc?.name || '')
-    const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
 
     function handleFile(event) {
         let reader = new FileReader()
@@ -68,12 +68,12 @@ function ImageForm(props) {
             scroll="body"
         >
             <DialogTitle align="center">
-                Upload Image
+                {doc ? "View" : "Upload"} Image
             </DialogTitle>
             <DialogContent>
                 <Stack spacing={1} sx={{ marginTop: 1 }}>
                     <Grid container spacing={1}>
-                        <Grid item xs={9}>
+                        <Grid item xs={12} lg={9}>
                             <TextField
                                 label="File Name"
                                 fullWidth
@@ -82,7 +82,7 @@ function ImageForm(props) {
                                 onChange={event => setName(event.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} lg={3}>
                             <Button
                                 variant="contained"
                                 startIcon={<UploadIcon />}

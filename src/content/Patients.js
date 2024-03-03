@@ -14,8 +14,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Link } from 'react-router-dom'
 
 // use hooks
-import { useLocalStorage } from 'usehooks-ts'
 import NewPatientForm from '../forms/NewPatientForm'
+import useStorage from '../api/useStorage'
 
 
 function PatientCard(props) {
@@ -87,7 +87,7 @@ function AddNewCard(props) {
 
 function Patients(props) {
 
-    const [patients] = useLocalStorage('patients', [])
+    const [patients] = useStorage('patients', [])
     const [open, setOpen] = React.useState(false)
 
     return (

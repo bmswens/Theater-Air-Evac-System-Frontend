@@ -1,10 +1,10 @@
 // REact
 import React from 'react'
 import LabeledCheckbox from '../../components/LabeledCheckbox'
-import { useLocalStorage } from 'usehooks-ts'
 
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormGroup, Stack, TextField } from '@mui/material'
+import useStorage from '../../api/useStorage'
 
 const blank9Line = {
     lat: '',
@@ -57,7 +57,7 @@ function NineLineForm(props) {
     const viewOnly = Boolean(doc ? true : false)
 
     const [data, setData] = React.useState(doc ? doc.data : blank9Line)
-    const [docs, setDocs] = useLocalStorage(`${dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
 
     React.useEffect(() => {
         if (doc) {
