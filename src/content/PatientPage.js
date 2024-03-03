@@ -204,7 +204,7 @@ function PatientPage(props) {
     const { dodid } = useParams()
     const [patients, setPatients] = useStorage('patients', [])
     const patient = patients[dodid]
-    const [docs] = useStorage(`${patient.dodid}-documents`, [])
+    const [docs] = useStorage(`${patient?.dodid}-documents`, [])
     let navigate = useNavigate()
 
     if (!patient) {

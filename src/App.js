@@ -13,6 +13,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 // custom
 import Nav from './nav/Nav'
 import Content from './content/Content'
+import { StorageContextProvider } from './context/StorageContext'
 
 function Router(props) {
   const deployment = process.env.REACT_APP_DEPLOYMENT
@@ -41,11 +42,13 @@ function App() {
   return (
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
-          <Nav />
-          <Content />
-        </ThemeProvider>
+        <StorageContextProvider>
+          <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <Nav />
+            <Content />
+          </ThemeProvider>
+        </StorageContextProvider>
       </LocalizationProvider>
     </Router>
   );
