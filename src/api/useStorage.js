@@ -5,9 +5,13 @@ import { useLocalStorage } from 'usehooks-ts'
 async function getWebStorage(key, baseURL) {
     let value = null
     let setValue = () => {}
+    console.log(key, baseURL)
     if (key === "patients") {
         let url = `${baseURL}/patients`
-        let resp = await fetch(url)
+        console.log(url)
+        let resp = await fetch(url, {
+            referrerPolicy: "unsafe-url"
+        })
         value = await resp.json()
         setValue = async (patients) => {
             for (let patient of patients) {
@@ -50,8 +54,6 @@ function useStorage(key, defaultValue) {
         }
         handle()
     }, [url, key])
-    console.log(localValue)
-    console.log(url)
     if (url) {
         return [value, setValueFunc]
     }

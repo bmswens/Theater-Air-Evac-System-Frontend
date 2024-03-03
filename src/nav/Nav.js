@@ -12,10 +12,12 @@ import SideDrawer from './SideDrawer'
 
 // router
 import { Link, useLocation } from 'react-router-dom'
+import SettingsDialog from '../components/SettingsDialog'
 
 function Nav(props) {
 
     const [open, setOpen] = React.useState(false)
+    const [settingsOpen, setSettingsOpen] = React.useState(false)
     const location = useLocation()
 
     React.useEffect(() => {
@@ -48,7 +50,9 @@ function Nav(props) {
                     <Tooltip
                         title="Settings"
                     >
-                        <IconButton>
+                        <IconButton
+                            onClick={() => setSettingsOpen(true)}
+                        >
                             <SettingsIcon fontSize="large" />
                         </IconButton>
                     </Tooltip>
@@ -58,6 +62,10 @@ function Nav(props) {
         <SideDrawer
             open={open}
             close={() => setOpen(false)}
+        />
+        <SettingsDialog
+            open={settingsOpen}
+            close={() => setSettingsOpen(false)}
         />
         </>
     )
