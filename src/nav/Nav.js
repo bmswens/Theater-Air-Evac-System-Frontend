@@ -6,18 +6,20 @@ import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/mate
 
 // MUI Icons
 import MenuIcon from '@mui/icons-material/Menu'
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import SettingsIcon from '@mui/icons-material/Settings'
+import SyncIcon from '@mui/icons-material/Sync';
 import SideDrawer from './SideDrawer'
 
 // router
 import { Link, useLocation } from 'react-router-dom'
 import SettingsDialog from '../components/SettingsDialog'
+import SyncDialog from '../components/SyncDialog';
 
 function Nav(props) {
 
     const [open, setOpen] = React.useState(false)
     const [settingsOpen, setSettingsOpen] = React.useState(false)
+    const [syncOpen, setSyncOpen] = React.useState(false)
     const location = useLocation()
 
     React.useEffect(() => {
@@ -41,10 +43,12 @@ function Nav(props) {
                     </Link>
                     <Box sx={{flexGrow: 1}} />
                     <Tooltip
-                        title="QR Scanner"
+                        title="Sync"
                     >
-                        <IconButton>
-                            <QrCodeScannerIcon fontSize="large" />
+                        <IconButton
+                            onClick={() => setSyncOpen(true)}
+                        >
+                            <SyncIcon fontSize="large" />
                         </IconButton>
                     </Tooltip>
                     <Tooltip
@@ -66,6 +70,10 @@ function Nav(props) {
         <SettingsDialog
             open={settingsOpen}
             close={() => setSettingsOpen(false)}
+        />
+        <SyncDialog
+            open={syncOpen}
+            close={() => setSyncOpen(false)}
         />
         </>
     )
