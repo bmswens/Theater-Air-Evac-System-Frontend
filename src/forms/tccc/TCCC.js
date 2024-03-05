@@ -97,7 +97,7 @@ function TCCC(props) {
                         value={data.mechanism}
                     />
                     <InjurySection
-                        injuries={data.injuries}
+                        injuries={data.injuries.filter(injury => injury.title.length ? true : false)}
                     />
                     <SignsAndSymptoms
                         rows={data.signsAndSymptoms}
