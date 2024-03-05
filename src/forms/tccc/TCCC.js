@@ -2,7 +2,7 @@
 import React from 'react'
 
 // MUI
-import { Autocomplete, Dialog, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField } from '@mui/material'
+import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField } from '@mui/material'
 import InjurySection from './InjurySection'
 import SignsAndSymptoms from './SignsAndSymptoms'
 import TreatmentSection from './TreatmentSection'
@@ -133,6 +133,13 @@ function TCCC(props) {
                     />
                 </Stack>
             </DialogContent>
+            <DialogActions>
+                <Button
+                    onClick={close}
+                >
+                    Close
+                </Button>
+            </DialogActions>
         </Dialog>
     )
 
