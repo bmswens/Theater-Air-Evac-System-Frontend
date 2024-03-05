@@ -40,6 +40,8 @@ function SyncDialog(props) {
                         }
                     }
                 )
+                // forces it to create folder
+                await fetch(`${url}/docs`)
                 let docsSent = await fetch(`${url}/docs`,{
                     method: "POST",
                     body: JSON.stringify(docs),
