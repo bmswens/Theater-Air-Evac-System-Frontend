@@ -58,7 +58,15 @@ function SyncDialog(props) {
             setProcessing(false)
         }
         async function download() {
-
+            let resp = await fetch(`${syncURL}/patients`)
+            let serverPatients = await resp.json()
+            for (let dodid in serverPatients) {
+                let docResp = await fetch(`${syncURL}/patients/${dodid}/docs`)
+                let docs = await docResp.json()
+                localStorage.setItem(`${dodid}-documents`, JSON.stringify(docs))
+            }
+            setPatients({...patients, ...serverPatients})
+            setProcessing(false)
         }
         if (processing === "upload") {
             upload()

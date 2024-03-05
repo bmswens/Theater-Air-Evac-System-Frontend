@@ -50,7 +50,6 @@ async function getWebStorage(key, baseURL) {
 function useStorage(key, defaultValue) {
     let [url] = useLocalStorage('api', '')
     const {values, setValues} = React.useContext(StorageContext)
-    console.log(values)
     let [localValue, setLocalValue] = useLocalStorage(key, defaultValue)
     let [loading, setLoading] = React.useState(true)
     React.useEffect(() => {
