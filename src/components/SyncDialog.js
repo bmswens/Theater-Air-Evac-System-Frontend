@@ -49,6 +49,14 @@ function SyncDialog(props) {
                         "Content-Type": "application/json",
                     }
                 })
+                if (!patientSent.ok) {
+                    let msg = await patientSent.body()
+                    alert(msg)
+                }
+                if (!docsSent.ok) {
+                    let msg = await docsSent.body()
+                    alert(msg)
+                }
                 if (deleteOnSync && docsSent.ok && patientSent.ok) {
                     localStorage.removeItem(`${dodid}-documents`)
                     delete localPatients[dodid]
@@ -61,9 +69,17 @@ function SyncDialog(props) {
         }
         async function download() {
             let resp = await fetch(`${syncURL}/patients`)
+            if (!resp.ok){
+                let msg = await resp.body()
+                alert(msg)
+            }
             let serverPatients = await resp.json()
             for (let dodid in serverPatients) {
                 let docResp = await fetch(`${syncURL}/patients/${dodid}/docs`)
+                if (!docResp.ok) {
+                    let msg = await docResp.body()
+                    alert(msg)
+                }
                 let docs = await docResp.json()
                 localStorage.setItem(`${dodid}-documents`, JSON.stringify(docs))
             }
