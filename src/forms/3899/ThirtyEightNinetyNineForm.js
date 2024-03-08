@@ -2,7 +2,7 @@
 import React from 'react'
 
 // MUI
-import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TextField, Typography } from '@mui/material'
 
 // dates
 import dayjs from 'dayjs'
@@ -267,17 +267,33 @@ function ThirtyEightNintyNineForm(props) {
                     <Divider textAlign='left'>
                         Physican's Signature (Sign Below)
                     </Divider>
-                    <ReactSignatureCanvas
-                        penColor='white'
-                        ref={physicanSigRef}
-                    />
+                    <Box 
+                        sx={{
+                            border: "white",
+                            borderRadius: 5,
+                            borderStyle: "dashed"
+                        }}
+                    >
+                        <ReactSignatureCanvas
+                            penColor='white'
+                            ref={physicanSigRef}
+                        />
+                    </Box>
                     <Divider textAlign='left'>
                         Flight Surgeon's Signature (Sign Below)
                     </Divider>
-                    <ReactSignatureCanvas
-                        penColor='white'
-                        ref={flightSigRef}
-                    />
+                    <Box 
+                        sx={{
+                            border: "white",
+                            borderRadius: 5,
+                            borderStyle: "dashed"
+                        }}
+                    >
+                        <ReactSignatureCanvas
+                            penColor='white'
+                            ref={flightSigRef}
+                        />
+                    </Box>
                 </Stack>
             </DialogContent>
             <DialogActions>
