@@ -16,6 +16,7 @@ import VaccinesIcon from '@mui/icons-material/Vaccines';
 import ThirtyEightNintyNineForm from '../../forms/3899/ThirtyEightNinetyNineForm';
 import AF3899A from '../../forms/3899/AF3899A';
 import useStorage from '../../api/useStorage';
+import AF3899D from '../../forms/3899/AF3899D';
 
 function AF3899Card(props) {
     const {
@@ -26,6 +27,7 @@ function AF3899Card(props) {
 
     const [open, setOpen] = React.useState(false)
     const [alphaOpen, setAlphaOpen] = React.useState(false)
+    const [deltaOpen, setDeltaOpen] = React.useState(false)
     const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
     const [patients] = useStorage("patients", [])
     const doc = docs[index]
@@ -40,6 +42,14 @@ function AF3899Card(props) {
     function addAlphaEntry(entry) {
         let tempDoc = {...doc, af3899a: doc.af3899a || []}
         tempDoc.af3899a = [...tempDoc.af3899a, entry]
+        let tempDocs = [...docs]
+        tempDocs.splice(index, 1, tempDoc)
+        setDocs(tempDocs)
+    }
+
+    function addDeltaEntry(entry) {
+        let tempDoc = {...doc, af3899d: doc.af3899d || []}
+        tempDoc.af3899d = [...tempDoc.af3899d, entry]
         let tempDocs = [...docs]
         tempDocs.splice(index, 1, tempDoc)
         setDocs(tempDocs)
@@ -77,7 +87,7 @@ function AF3899Card(props) {
                         title="AF Form 3899D"
                     >
                         <IconButton
-                            
+                            onClick={() => setDeltaOpen(true)}
                         >
                             <MonitorHeartIcon fontSize="large" />
                         </IconButton>
@@ -113,6 +123,12 @@ function AF3899Card(props) {
                 close={() => setAlphaOpen(false)}
                 entries={doc.af3899a || []}
                 addEntry={addAlphaEntry}
+            />
+            <AF3899D
+                open={deltaOpen}
+                close={() => setDeltaOpen(false)}
+                entries={doc.af3899d || []}
+                addEntry={addDeltaEntry}
             />
         </Grid>
     )

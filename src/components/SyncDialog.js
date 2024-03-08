@@ -17,73 +17,83 @@ function SyncDialog(props) {
 
     const [syncURL, setSyncURL] = useLocalStorage('sync-url', 'https://med.cyberdeck.swenson.software')
     const [deleteOnSync, setDeleteOnSync] = useLocalStorage('delete-on-sync', false)
-    
+
     // build stuff to push, can't be done in effect
     const [patients, setPatients] = useLocalStorage('patients', [])
 
     React.useEffect(() => {
         async function upload() {
-            let localPatients = {...patients}
-            for (let dodid in localPatients) {
-                let url = `${syncURL}/patients/${dodid}`
-                let patient = localPatients[dodid]
-                let docs = localStorage.getItem(`${dodid}-documents`) || []
-                if (docs.length) {
-                    docs = JSON.parse(docs)
-                }
-                let patientSent = await fetch(url,
-                    {
+            try {
+                let localPatients = { ...patients }
+                for (let dodid in localPatients) {
+                    let url = `${syncURL}/patients/${dodid}`
+                    let patient = localPatients[dodid]
+                    let docs = localStorage.getItem(`${dodid}-documents`) || []
+                    if (docs.length) {
+                        docs = JSON.parse(docs)
+                    }
+                    let patientSent = await fetch(url,
+                        {
+                            method: "POST",
+                            body: JSON.stringify(patient),
+                            headers: {
+                                "Content-Type": "application/json",
+                            }
+                        }
+                    )
+                    // forces it to create folder
+                    await fetch(`${url}/docs`)
+                    let docsSent = await fetch(`${url}/docs`, {
                         method: "POST",
-                        body: JSON.stringify(patient),
+                        body: JSON.stringify(docs),
                         headers: {
                             "Content-Type": "application/json",
                         }
+                    })
+                    if (!patientSent.ok) {
+                        let msg = await patientSent.body()
+                        alert(msg)
                     }
-                )
-                // forces it to create folder
-                await fetch(`${url}/docs`)
-                let docsSent = await fetch(`${url}/docs`,{
-                    method: "POST",
-                    body: JSON.stringify(docs),
-                    headers: {
-                        "Content-Type": "application/json",
+                    if (!docsSent.ok) {
+                        let msg = await docsSent.body()
+                        alert(msg)
                     }
-                })
-                if (!patientSent.ok) {
-                    let msg = await patientSent.body()
-                    alert(msg)
+                    if (deleteOnSync && docsSent.ok && patientSent.ok) {
+                        localStorage.removeItem(`${dodid}-documents`)
+                        delete localPatients[dodid]
+                    }
                 }
-                if (!docsSent.ok) {
-                    let msg = await docsSent.body()
-                    alert(msg)
-                }
-                if (deleteOnSync && docsSent.ok && patientSent.ok) {
-                    localStorage.removeItem(`${dodid}-documents`)
-                    delete localPatients[dodid]
+                if (deleteOnSync) {
+                    setPatients(localPatients)
                 }
             }
-            if (deleteOnSync) {
-                setPatients(localPatients)
+            catch (e) {
+                alert(e.message)
             }
             setProcessing(false)
         }
         async function download() {
-            let resp = await fetch(`${syncURL}/patients`)
-            if (!resp.ok){
-                let msg = await resp.body()
-                alert(msg)
-            }
-            let serverPatients = await resp.json()
-            for (let dodid in serverPatients) {
-                let docResp = await fetch(`${syncURL}/patients/${dodid}/docs`)
-                if (!docResp.ok) {
-                    let msg = await docResp.body()
+            try {
+                let resp = await fetch(`${syncURL}/patients`)
+                if (!resp.ok) {
+                    let msg = await resp.body()
                     alert(msg)
                 }
-                let docs = await docResp.json()
-                localStorage.setItem(`${dodid}-documents`, JSON.stringify(docs))
+                let serverPatients = await resp.json()
+                for (let dodid in serverPatients) {
+                    let docResp = await fetch(`${syncURL}/patients/${dodid}/docs`)
+                    if (!docResp.ok) {
+                        let msg = await docResp.body()
+                        alert(msg)
+                    }
+                    let docs = await docResp.json()
+                    localStorage.setItem(`${dodid}-documents`, JSON.stringify(docs))
+                }
+                setPatients({ ...patients, ...serverPatients })
             }
-            setPatients({...patients, ...serverPatients})
+            catch (e) {
+                alert(e.message)
+            }
             setProcessing(false)
         }
         if (processing === "upload") {
@@ -106,7 +116,7 @@ function SyncDialog(props) {
                 Sync
             </DialogTitle>
             <DialogContent>
-                <Stack spacing={1} sx={{marginTop: 1}}>
+                <Stack spacing={1} sx={{ marginTop: 1 }}>
                     <TextField
                         label="URL"
                         fullWidth
@@ -114,8 +124,8 @@ function SyncDialog(props) {
                         onChange={event => setSyncURL(event.target.value)}
                     />
                     <Stack spacing={1} direction="row">
-                        <FormControlLabel label="Delete After Sync" control={<Switch checked={deleteOnSync} onChange={event => setDeleteOnSync(event.target.checked)} /> } />
-                        <Box sx={{flexGrow: 1}} />
+                        <FormControlLabel label="Delete After Sync" control={<Switch checked={deleteOnSync} onChange={event => setDeleteOnSync(event.target.checked)} />} />
+                        <Box sx={{ flexGrow: 1 }} />
                         <Tooltip
                             title="Download"
                         >
@@ -137,7 +147,7 @@ function SyncDialog(props) {
                             </IconButton>
                         </Tooltip>
                     </Stack>
-                    { processing ? <LinearProgress /> : null}
+                    {processing ? <LinearProgress /> : null}
                 </Stack>
             </DialogContent>
             <DialogActions>
