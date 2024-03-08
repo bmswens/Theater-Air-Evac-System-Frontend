@@ -51,7 +51,8 @@ function NewPatientForm(props) {
             <DialogContent>
                 <Stack spacing={1} sx={{ marginTop: 1}}>
                     <TextField
-                        label="DODID"
+                        label="Patient Identifier"
+                        required
                         value={patient.dodid}
                         onChange={event => setPatient({ ...patient, dodid: event.target.value })}
                         fullWidth
@@ -116,6 +117,7 @@ function NewPatientForm(props) {
                     onClick={submit}
                     variant="contained"
                     size="large"
+                    disabled={patient.dodid.length === 0}
                 >
                     Submit
                 </Button>

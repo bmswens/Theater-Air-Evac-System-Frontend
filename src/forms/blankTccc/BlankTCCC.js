@@ -167,7 +167,7 @@ function BlankTCCC(props) {
                         disabled
                     />
                     <TextField
-                        label="DOD ID"
+                        label="Patient Identifier"
                         value={patient.dodid}
                         disabled
                     />

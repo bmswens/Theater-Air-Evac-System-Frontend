@@ -114,7 +114,7 @@ function ThirtyEightNintyNineForm(props) {
                 AF Form 3899
             </DialogTitle>
             <DialogContent>
-                <Stack spacing={1} sx={{ marginTop: 1 }}>
+                <Stack spacing={1} sx={{ marginTop: 1, overflow: "scroll" }}>
                     <Divider>
                         Patient Identification
                     </Divider>
@@ -267,33 +267,19 @@ function ThirtyEightNintyNineForm(props) {
                     <Divider textAlign='left'>
                         Physican's Signature (Sign Below)
                     </Divider>
-                    <Box 
-                        sx={{
-                            border: "white",
-                            borderRadius: 5,
-                            borderStyle: "dashed"
-                        }}
-                    >
                         <ReactSignatureCanvas
                             penColor='white'
                             ref={physicanSigRef}
+                            backgroundColor='#121212'
                         />
-                    </Box>
                     <Divider textAlign='left'>
                         Flight Surgeon's Signature (Sign Below)
                     </Divider>
-                    <Box 
-                        sx={{
-                            border: "white",
-                            borderRadius: 5,
-                            borderStyle: "dashed"
-                        }}
-                    >
                         <ReactSignatureCanvas
                             penColor='white'
                             ref={flightSigRef}
+                            backgroundColor='#121212'
                         />
-                    </Box>
                 </Stack>
             </DialogContent>
             <DialogActions>
