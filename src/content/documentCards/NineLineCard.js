@@ -31,7 +31,7 @@ function NineLineCard(props) {
     }
 
     return (
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={6} lg={4}>
             <Card>
                 <CardHeader
                     avatar={<Avatar><DescriptionIcon fontSize="large" /></Avatar>}

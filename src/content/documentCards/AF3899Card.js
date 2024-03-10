@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import NotesIcon from '@mui/icons-material/Notes'
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart'
 import VaccinesIcon from '@mui/icons-material/Vaccines';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 // custom
 import ThirtyEightNintyNineForm from '../../forms/3899/ThirtyEightNinetyNineForm';
@@ -18,6 +19,7 @@ import AF3899A from '../../forms/3899/AF3899A';
 import useStorage from '../../api/useStorage';
 import AF3899D from '../../forms/3899/AF3899D';
 import AF3899I from '../../forms/3899/AF3899I';
+import AF3899B from '../../forms/3899/AF3899B';
 
 function AF3899Card(props) {
     const {
@@ -28,6 +30,7 @@ function AF3899Card(props) {
 
     const [open, setOpen] = React.useState(false)
     const [alphaOpen, setAlphaOpen] = React.useState(false)
+    const [bravoOpen, setBravoOpen] = React.useState(false)
     const [deltaOpen, setDeltaOpen] = React.useState(false)
     const [iotaOpen, setIotaOpen] = React.useState(false)
     const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
@@ -44,6 +47,14 @@ function AF3899Card(props) {
     function addAlphaEntry(entry) {
         let tempDoc = {...doc, af3899a: doc.af3899a || []}
         tempDoc.af3899a = [...tempDoc.af3899a, entry]
+        let tempDocs = [...docs]
+        tempDocs.splice(index, 1, tempDoc)
+        setDocs(tempDocs)
+    }
+
+    function addBravoEntry(entry) {
+        let tempDoc = {...doc, af3899b: doc.af3899b || []}
+        tempDoc.af3899b = [...tempDoc.af3899b, entry]
         let tempDocs = [...docs]
         tempDocs.splice(index, 1, tempDoc)
         setDocs(tempDocs)
@@ -66,7 +77,7 @@ function AF3899Card(props) {
     }
 
     return (
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={6} lg={4}>
             <Card>
                 <CardHeader
                     avatar={<Avatar><DescriptionIcon fontSize="large" /></Avatar>}
@@ -91,6 +102,15 @@ function AF3899Card(props) {
                             onClick={() => setAlphaOpen(true)}
                         >
                             <NotesIcon fontSize="large" />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                        title="AF Form 3899B"
+                    >
+                        <IconButton
+                            onClick={() => setBravoOpen(true)}
+                        >
+                            <ChecklistIcon fontSize="large" />
                         </IconButton>
                     </Tooltip>
                     <Tooltip
@@ -133,6 +153,12 @@ function AF3899Card(props) {
                 close={() => setAlphaOpen(false)}
                 entries={doc.af3899a || []}
                 addEntry={addAlphaEntry}
+            />
+            <AF3899B
+                open={bravoOpen}
+                close={() => setBravoOpen(false)}
+                entries={doc.af3899b || []}
+                addEntry={addBravoEntry}
             />
             <AF3899D
                 open={deltaOpen}
