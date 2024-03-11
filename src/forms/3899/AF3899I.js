@@ -9,6 +9,7 @@ const blankEntry = {
     datetime: new Date(),
     medication: '',
     dose: '',
+    route:'',
     initials1: '',
     initials2: ''
 }
@@ -29,6 +30,11 @@ function EntryTable(props) {
         {
             field: "dose",
             headerName: "Dosage",
+            flex: 1
+        },
+        {
+            field: "route",
+            headerName: "Route",
             flex: 1
         },
         {
@@ -109,6 +115,12 @@ function AF3899I(props) {
                             label="Dosage"
                             value={data.dose}
                             onChange={event => setData({ ...data, dose: event.target.value })}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Route"
+                            value={data.route}
+                            onChange={event => setData({ ...data, route: event.target.value })}
                         />
                         <TextField
                             fullWidth

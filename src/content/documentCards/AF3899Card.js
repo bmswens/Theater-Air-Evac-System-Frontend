@@ -96,7 +96,7 @@ function AF3899Card(props) {
                     </Tooltip>
                     <Box sx={{flexGrow: 1}} />
                     <Tooltip
-                        title="AF Form 3899A"
+                        title="Progressive Notes (3899A)"
                     >
                         <IconButton
                             onClick={() => setAlphaOpen(true)}
@@ -105,7 +105,7 @@ function AF3899Card(props) {
                         </IconButton>
                     </Tooltip>
                     <Tooltip
-                        title="AF Form 3899B"
+                        title="Doctor's Orders (3899B)"
                     >
                         <IconButton
                             onClick={() => setBravoOpen(true)}
@@ -114,7 +114,7 @@ function AF3899Card(props) {
                         </IconButton>
                     </Tooltip>
                     <Tooltip
-                        title="AF Form 3899D"
+                        title="Vitals (3899D)"
                     >
                         <IconButton
                             onClick={() => setDeltaOpen(true)}
@@ -123,7 +123,7 @@ function AF3899Card(props) {
                         </IconButton>
                     </Tooltip>
                     <Tooltip
-                        title="AF Form 3899I"
+                        title="Medication (3899I)"
                     >
                         <IconButton
                             onClick={() => setIotaOpen(true)}
