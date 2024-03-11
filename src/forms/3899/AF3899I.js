@@ -71,7 +71,7 @@ function AF3899I(props) {
         entries,
         addEntry
     } = props
-    console.log(props)
+
     const [data, setData] = React.useState(blankEntry)
 
     function handleClose() {
