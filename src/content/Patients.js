@@ -90,8 +90,6 @@ function Patients(props) {
     const [patients] = useStorage('patients', [])
     const [open, setOpen] = React.useState(false)
 
-    console.log(patients)
-
     return (
         <>
             {Object.keys(patients).map(id => <PatientCard key={patients[id].dodid} {...patients[id]} />)}

@@ -6,6 +6,7 @@ import { Grid, LinearProgress } from '@mui/material'
 import { Route, Routes } from 'react-router-dom'
 import Patients from './Patients'
 import PatientPage from './PatientPage'
+import TucsPage from './TucsPage'
 
 function Content(props) {
     
@@ -33,6 +34,10 @@ function Content(props) {
                     <Route
                         path="/patients/:dodid"
                         element={<PatientPage />}
+                    />
+                    <Route
+                        path="/tucs"
+                        element={<TucsPage />}
                     />
                 </Routes>
             </Suspense>

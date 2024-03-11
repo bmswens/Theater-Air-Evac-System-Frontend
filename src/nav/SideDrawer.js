@@ -6,6 +6,7 @@ import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } fr
 
 // MUI icons
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import TableChartIcon from '@mui/icons-material/TableChart';
 import { Link } from 'react-router-dom'
 
 function SideDrawer(props) {
@@ -29,6 +30,16 @@ function SideDrawer(props) {
                                 <PeopleAltIcon />
                             </ListItemIcon>
                             <ListItemText primary="Patients" />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                <ListItem disablePadding>
+                    <Link to="/tucs" style={{color: "inherit", textDecoration: "none", width: "100%"}}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <TableChartIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="TUCS" />
                         </ListItemButton>
                     </Link>
                 </ListItem>
