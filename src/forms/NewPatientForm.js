@@ -110,6 +110,7 @@ function NewPatientForm(props) {
                 <Button
                     onClick={handleClose}
                     size="large"
+                    aria-label="Cancel"
                 >
                     Cancel
                 </Button>

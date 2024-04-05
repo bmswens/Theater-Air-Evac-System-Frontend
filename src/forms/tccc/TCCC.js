@@ -136,6 +136,7 @@ function TCCC(props) {
             <DialogActions>
                 <Button
                     onClick={close}
+                    variant="contained"
                 >
                     Close
                 </Button>

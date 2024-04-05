@@ -240,7 +240,8 @@ const api = {
     getPatients,
     getPatientById,
     initialPatients,
-    georgeDocs
+    georgeDocs,
+    defaultTCCC
 }
 
 export default api

@@ -13,8 +13,6 @@ async function getWebStorage(key, baseURL) {
         })
         value = await resp.json()
         setValue = async (patients) => {
-            console.log('set')
-            console.log(patients)
             for (let key in patients) {
                 let patient = patients[key]
                 let patientURL = `${baseURL}/patients/${patient.dodid}`

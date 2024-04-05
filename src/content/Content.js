@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom'
 import Patients from './Patients'
 import PatientPage from './PatientPage'
 import TucsPage from './TucsPage'
+import PatientListing from './ae/PatientListing'
 
 function Content(props) {
     
@@ -25,7 +26,7 @@ function Content(props) {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Patients />}
+                        element={<PatientListing />}
                     />
                     <Route
                         path="/patients"
