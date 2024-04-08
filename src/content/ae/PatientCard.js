@@ -11,6 +11,7 @@ import FolderIcon from '@mui/icons-material/Folder'
 import useStorage from '../../api/useStorage'
 import TCCC from '../../forms/tccc/TCCC'
 import { useNavigate } from 'react-router-dom'
+import AF3899D from '../../forms/3899/AF3899D'
 
 function PatientCard(props) {
     const {
@@ -19,22 +20,38 @@ function PatientCard(props) {
         dodid
     } = props
 
-    const [docs] = useStorage(`${dodid}-documents`, [])
+    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
     const navigate = useNavigate()
     
     let tccc = null
     let af3899 = null
-    for (let doc of docs) {
+    let af3899Index = null
+    for (let index in docs) {
+        let doc = docs[index]
         if (doc.name === "Tactical Casualty Care Card") {
             tccc = doc
+        }
+        if (doc.name === "AF Form 3899") {
+            af3899 = doc
+            af3899Index = index
         }
     }
 
     const [tcccOpen, setTccOpen] = React.useState(false)
+    const [vitalsOpen, setVitalsOpen] = React.useState(false)
 
     function close() {
         setTccOpen(false)
+        setVitalsOpen(false)
     }
+
+    // function addDeltaEntry(entry) {
+    //     let tempDoc = {...af3899, af3899d: af3899.af3899d || []}
+    //     tempDoc.af3899d = [...tempDoc.af3899d, entry]
+    //     let tempDocs = [...docs]
+    //     tempDocs.splice(af3899Index, 1, tempDoc)
+    //     setDocs(tempDocs)
+    // }
     
     return (
         <Grid item xs={12}>
@@ -62,6 +79,7 @@ function PatientCard(props) {
                         </Button>
                         <Button
                             variant="contained"
+                            onClick={() => setVitalsOpen(true)}
                             disabled={af3899 === null}
                         >
                             Vitals
@@ -85,7 +103,16 @@ function PatientCard(props) {
                     :
                     null
             }
-
+            {
+                af3899 ?
+                    <AF3899D
+                        open={vitalsOpen}
+                        close={close}
+                        entries={af3899.af3899d || []}
+                    />
+                    : 
+                    null
+            }
         </Grid>
     )
 }

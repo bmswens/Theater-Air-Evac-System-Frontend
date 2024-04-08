@@ -92,8 +92,41 @@ describe('<PatientCard>', function () {
             expect(dialog).toBeNull()
         })
     })
-    it("should have a button to display their vitals", function () {
+    it("should have a button to display their vitals", async function () {
         // Linked to 3899
+        Storage.prototype.getItem = jest.fn().mockImplementation((key) => {
+            if (key === "api") {
+                return ''
+            }
+            return JSON.stringify([{
+                name: "AF Form 3899",
+                lastModified: new Date(),
+                data: {
+                    af3899D: []
+                }
+            }
+            ])
+        })
+        render(
+            <BrowserRouter>
+                <PatientCard
+                    dodid="XYZ"
+                />
+            </BrowserRouter>
+        )
+        let button = screen.getByRole("button", { name: "Vitals" })
+        let closeButton
+        await waitFor(() => {
+            userEvent.click(button)
+            let dialog = screen.getByRole("dialog", { name: "AF Form 3899D" })
+            expect(dialog).not.toBeNull()
+            closeButton = screen.getByRole("button", { name: "Close" })
+        })
+        await waitFor(() => {
+            userEvent.click(closeButton)
+            let dialog = screen.queryByRole("dialog", { name: "Tactical Combat Casualty Care Card" })
+            expect(dialog).toBeNull()
+        })
     })
     it("should have a button to display ISBAR", function () {
         // TODO: ISBAR not implemented yet
