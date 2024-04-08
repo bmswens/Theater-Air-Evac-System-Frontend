@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SyncIcon from '@mui/icons-material/Sync';
 import SideDrawer from './SideDrawer'
+import PrintIcon from '@mui/icons-material/Print';
 
 // router
 import { Link, useLocation } from 'react-router-dom'
@@ -42,6 +43,15 @@ function Nav(props) {
                         </Typography>
                     </Link>
                     <Box sx={{flexGrow: 1}} />
+                    <Tooltip
+                        title="Print"
+                    >
+                        <IconButton
+                            disabled
+                        >
+                            <PrintIcon fontSize="large" />
+                        </IconButton>
+                    </Tooltip>
                     <Tooltip
                         title="Sync"
                     >
