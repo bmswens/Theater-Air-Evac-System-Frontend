@@ -18,7 +18,6 @@ function PatientListing(props) {
 
     const [open, setOpen] = React.useState(false)
     const [patients, setPatients] = useStorage("patients", [])
-    console.log(patients)
 
     function deletePatients() {
         setPatients([])

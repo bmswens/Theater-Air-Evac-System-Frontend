@@ -58,7 +58,7 @@ function PatientCard(props) {
             <Card>
                 <CardActionArea
                     aria-label={`Open ${dodid}`}
-                    onClick={() => navigate(`/patients/${dodid}`)}
+                    onClick={() => navigate(`/patients/ae/${dodid}`)}
                 >
                     <CardHeader
                         title={`${firstName} ${lastName}`}

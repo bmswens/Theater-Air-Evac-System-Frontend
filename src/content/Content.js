@@ -8,6 +8,7 @@ import Patients from './Patients'
 import PatientPage from './PatientPage'
 import TucsPage from './TucsPage'
 import PatientListing from './ae/PatientListing'
+import AEPatientPage from './ae/PatientPage'
 
 function Content(props) {
     
@@ -39,6 +40,10 @@ function Content(props) {
                     <Route
                         path="/tucs"
                         element={<TucsPage />}
+                    />
+                    <Route
+                        path="/patients/ae/:dodid"
+                        element={<AEPatientPage />}
                     />
                 </Routes>
             </Suspense>
