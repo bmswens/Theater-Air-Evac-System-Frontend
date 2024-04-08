@@ -10,6 +10,7 @@ import FolderIcon from '@mui/icons-material/Folder'
 
 import useStorage from '../../api/useStorage'
 import TCCC from '../../forms/tccc/TCCC'
+import { useNavigate } from 'react-router-dom'
 
 function PatientCard(props) {
     const {
@@ -19,6 +20,7 @@ function PatientCard(props) {
     } = props
 
     const [docs] = useStorage(`${dodid}-documents`, [])
+    const navigate = useNavigate()
     
     let tccc = null
     let af3899 = null
@@ -39,7 +41,7 @@ function PatientCard(props) {
             <Card>
                 <CardActionArea
                     aria-label={`Open ${dodid}`}
-                    onClick={() => window.open(`/patients/${dodid}`, "_self")}
+                    onClick={() => navigate(`/patients/${dodid}`)}
                 >
                     <CardHeader
                         title={`${firstName} ${lastName}`}
@@ -60,7 +62,7 @@ function PatientCard(props) {
                         </Button>
                         <Button
                             variant="contained"
-
+                            disabled={af3899 === null}
                         >
                             Vitals
                         </Button>

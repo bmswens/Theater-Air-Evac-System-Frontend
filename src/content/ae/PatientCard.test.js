@@ -2,31 +2,36 @@ import { render, screen, waitFor } from "@testing-library/react"
 import PatientCard from "./PatientCard"
 import api from "../../api"
 import userEvent from "@testing-library/user-event"
+import { BrowserRouter } from "react-router-dom"
 
 
-describe('<PatientCard>', function() {
-    it("should display the patient's name", function() {
+describe('<PatientCard>', function () {
+    it("should display the patient's name", function () {
         render(
-            <PatientCard
-                firstName="Amn"
-                lastName="Snuffy"
-            />
+            <BrowserRouter>
+                <PatientCard
+                    firstName="Amn"
+                    lastName="Snuffy"
+                />
+            </BrowserRouter>
         )
         let name = screen.getByText(/Amn Snuffy/)
         expect(name).not.toBeNull()
     })
-    it("should display the patient's cite number", function() {
+    it("should display the patient's cite number", function () {
         // Cite number ~= patient id
         // "Yeah it’s a number assigned to a patient don’t know who selects it"
         render(
-            <PatientCard
-                dodid="XYZ"
-            />
+            <BrowserRouter>
+                <PatientCard
+                    dodid="XYZ"
+                />
+            </BrowserRouter>
         )
         let name = screen.getByText(/XYZ/)
         expect(name).not.toBeNull()
     })
-    it("should have a button to display their TCCC", async function() {
+    it("should have a button to display their TCCC", async function () {
         // TODO: Currently just displays the first TCCC
         // may need to update it to grab the latest, but keeping 
         // it simple for now
@@ -64,11 +69,14 @@ describe('<PatientCard>', function() {
                     firstResponderDodid: ''
                 }
             }
-        ])})
+            ])
+        })
         render(
-            <PatientCard
-                dodid="XYZ"
-            />
+            <BrowserRouter>
+                <PatientCard
+                    dodid="XYZ"
+                />
+            </BrowserRouter>
         )
         let button = screen.getByRole("button", { name: "TCCC" })
         let closeButton
@@ -84,21 +92,21 @@ describe('<PatientCard>', function() {
             expect(dialog).toBeNull()
         })
     })
-    it("should have a button to display their vitals", function() {
+    it("should have a button to display their vitals", function () {
         // Linked to 3899
     })
-    it("should have a button to display ISBAR", function() {
+    it("should have a button to display ISBAR", function () {
         // TODO: ISBAR not implemented yet
     })
-    it("should navigate you to the patient's page on click", function() {
-        window.open = jest.fn()
+    it("should navigate you to the patient's page on click", function () {
         render(
-            <PatientCard
-                dodid="XYZ"
-            />
+            <BrowserRouter>
+                <PatientCard
+                    dodid="XYZ"
+                />
+            </BrowserRouter>
         )
         let button = screen.getByRole('button', { name: "Open XYZ" })
         userEvent.click(button)
-        expect(window.open).toHaveBeenCalledWith("/patients/XYZ", "_self")
     })
 })

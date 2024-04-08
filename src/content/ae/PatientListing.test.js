@@ -3,17 +3,18 @@ import PatientListing from "./PatientListing"
 import userEvent from "@testing-library/user-event"
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { BrowserRouter } from "react-router-dom"
 
 
-describe("<PatientListing>", function() {
-    it("should have a label for patient listing", function() {
+describe("<PatientListing>", function () {
+    it("should have a label for patient listing", function () {
         render(
             <PatientListing />
         )
         let text = screen.getByText(/Patient Listing/)
         expect(text).not.toBeNull()
     })
-    it("should display patient cards for all the patients", function() {
+    it("should display patient cards for all the patients", function () {
         Storage.prototype.getItem = jest.fn().mockImplementation((key) => {
             if (key === "api") {
                 return ''
@@ -23,14 +24,17 @@ describe("<PatientListing>", function() {
                     firstName: "Test",
                     lastName: "Patient"
                 }
-            ])})
+            ])
+        })
         render(
-            <PatientListing />
+            <BrowserRouter>
+                <PatientListing />
+            </BrowserRouter>
         )
         let text = screen.getByText(/Test Patient/)
         expect(text).not.toBeNull()
     })
-    it("should have a button to delete all patients", function() {
+    it("should have a button to delete all patients", function () {
         Storage.prototype.setItem = jest.fn()
         render(
             <PatientListing />
@@ -39,7 +43,7 @@ describe("<PatientListing>", function() {
         userEvent.click(button)
         expect(localStorage.setItem).toHaveBeenCalledWith("patients", "[]")
     })
-    it("should have a button to add a new patient", async function() {
+    it("should have a button to add a new patient", async function () {
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <PatientListing />
@@ -49,7 +53,7 @@ describe("<PatientListing>", function() {
         let cancelButton
         await waitFor(() => {
             userEvent.click(button)
-            let dialog = screen.getByRole("dialog", { name: "New Patient"})
+            let dialog = screen.getByRole("dialog", { name: "New Patient" })
             expect(dialog).not.toBeNull()
             cancelButton = screen.getByRole("button", { name: "Cancel" })
         })
