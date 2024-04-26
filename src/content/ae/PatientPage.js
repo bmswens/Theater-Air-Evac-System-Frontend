@@ -6,6 +6,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import useStorage from '../../api/useStorage'
 import { useParams } from 'react-router-dom'
 import OverviewTab from './tabs/OverviewTab'
+import OrdersTab from './tabs/OrdersTab'
 
 
 function PatientPage(props) {
@@ -81,6 +82,12 @@ function PatientPage(props) {
                         diagnosis={patient.diagnosis || ""}
                         notes={patient.notes || ""}
                         vitals={patient.vitals || []}
+                        updatePatient={updatePatient}
+                    />
+                </TabPanel>
+                <TabPanel value={3}>
+                    <OrdersTab
+                        orders={patient.orders || []}
                         updatePatient={updatePatient}
                     />
                 </TabPanel>
