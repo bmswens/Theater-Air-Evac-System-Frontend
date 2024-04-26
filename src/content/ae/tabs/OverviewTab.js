@@ -1,52 +1,66 @@
 // React
-import { Autocomplete, Box, Stack, TextField } from '@mui/material'
+import { Autocomplete, Box, Card, CardContent, CardHeader, Stack, TextField, Typography } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import React from 'react'
 
-const blankEntry = {
-    datetime: new Date(),
-    hr: '',
-    rr: '',
-    temp: '',
-    map: '',
-    art: '',
-    cvp: '',
-    sao2: '',
-    rythem: '',
-    icp: ''
-}
 
-function EntryTable(props) {
-    const columns = Object.keys(blankEntry).map(key => {
-        return {
-            field: key,
-            headerName: key,
-            flex: 1
-        }
-    })
+function VitalCard(props) {
+    const {title, content} = props
 
     return (
-        <Box sx={{ width: "100%", height: 400 }}>
-            <DataGrid
-                columns={columns}
-                rows={[]}
-                slots={{ toolbar: GridToolbar }}
+        <Card>
+            <CardHeader
+                title={title}
             />
-        </Box>
+            <CardContent>
+                <Typography variant="h2" align="center">
+                    {content}
+                </Typography>
+            </CardContent>
+        </Card>
     )
-
 }
 
 function OverviewTab(props) {
 
-    const { allergies } = props
+    const { allergies, diagnosis, updatePatient, notes } = props
+    let { vitals } = props
+    vitals = vitals || []
+
+    const latestEntry = vitals[vitals.length - 1] || {}
+    const vitalsToDisplay = [
+        {
+            title: "Pulse",
+            content: latestEntry.pulse || ""
+        },
+        {
+            title: "Blood Pressure & MAP",
+            content: latestEntry.bloodPressure ? `${latestEntry.bloodPressure} (${latestEntry.map})` : ''
+        },
+        {
+            title: "CO2",
+            content: latestEntry.co2 || ""
+        },
+        {
+            title: "SPO2",
+            content: latestEntry.spo2 || ""
+        },
+        {
+            title: "Pain",
+            content: latestEntry.pain || ""
+        }
+    ]
 
     return (
         <Stack spacing={1}>
-            <EntryTable />
+            <Stack direction="row" spacing={1}>
+                {vitalsToDisplay.map((vital, index) => <Box key={index}  sx={{flexGrow: 1}}><VitalCard {...vital} /></Box>)}
+            </Stack>
             <TextField
                 fullWidth
                 label="Primary Diagonsis"
+                value={diagnosis}
+                onChange={event => updatePatient("diagnosis", event.target.value)}
             />
             <Autocomplete
                 multiple
@@ -62,6 +76,8 @@ function OverviewTab(props) {
                 multiline
                 rows={3}
                 label="Notes"
+                value={notes}
+                onChange={event => updatePatient("notes", event.target.value)}
             />
         </Stack>
     )

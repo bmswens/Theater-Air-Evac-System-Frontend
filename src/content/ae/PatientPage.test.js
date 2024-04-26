@@ -1,6 +1,7 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { act, render, screen, waitFor } from "@testing-library/react"
 import { MemoryRouter, Route, Routes } from "react-router-dom"
 import PatientPage from "./PatientPage"
+import userEvent from "@testing-library/user-event"
 
 
 describe('<PatientPage>', function() {
@@ -36,19 +37,34 @@ describe('<PatientPage>', function() {
             expect(cite).not.toBeNull()
         })
     })
-})
-
-describe('<OverviewTab>', function() {
-    it("should display most recent vitals", function() {
-
-    })
-    it("shoudld display diagnosis", function() {
-
-    })
-    it("should display allergies", function() {
-
-    })
-    it("should display notes", function() {
-
+    it("should provide a function to update the patient", async function() {
+        Storage.prototype.setItem = jest.fn()
+        Storage.prototype.getItem = jest.fn().mockImplementation((key) => {
+            if (key === "api") {
+                return ''
+            }
+            return JSON.stringify({
+                "XYZ": {
+                    firstName: "Test",
+                    lastName: "Patient",
+                    dodid: "XYZ"
+                }
+        })
+        })
+        render(
+            <MemoryRouter
+                initialEntries={["/patients/ae/XYZ"]}
+            >
+                <Routes>
+                    <Route
+                        path="/patients/ae/:dodid"
+                        element={<PatientPage />}
+                    />
+                </Routes>
+            </MemoryRouter>
+        )
+        let textBox = screen.getByRole("textbox", {name: "Primary Diagonsis"})
+        act(() => userEvent.type(textBox, "Cancer"))
+        expect(Storage.prototype.setItem).toHaveBeenCalledTimes("Cancer".length)
     })
 })

@@ -11,8 +11,19 @@ import OverviewTab from './tabs/OverviewTab'
 function PatientPage(props) {
 
     const { dodid } = useParams()
-    const [patients] = useStorage('patients', [])
+    const [patients, setPatients] = useStorage('patients', {})
     const patient = patients[dodid]
+
+    function updatePatient(key, value) {
+        let newPatient = {
+            ...patient,
+            [key]: value
+        }
+        setPatients({
+            ...patients,
+            [dodid]: newPatient
+        })
+    }
 
 
     const [tab, setTab] = React.useState(1)
@@ -60,10 +71,18 @@ function PatientPage(props) {
                         <Tab
                             label="Notes"
                         />
+                        <Tab
+                            label="TCCC"
+                        />
                     </TabList>
                 </Box>
                 <TabPanel value={1}>
-                    <OverviewTab />
+                    <OverviewTab
+                        diagnosis={patient.diagnosis || ""}
+                        notes={patient.notes || ""}
+                        vitals={patient.vitals || []}
+                        updatePatient={updatePatient}
+                    />
                 </TabPanel>
             </TabContext>
         </Grid>

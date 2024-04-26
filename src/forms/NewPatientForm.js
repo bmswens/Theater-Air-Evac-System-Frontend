@@ -16,6 +16,7 @@ const defaultPatient = {
     bloodtype: '',
     dob: null,
     allergies: [],
+    vitals: []
 }
 
 function NewPatientForm(props) {
