@@ -7,6 +7,7 @@ import useStorage from '../../api/useStorage'
 import { useParams } from 'react-router-dom'
 import OverviewTab from './tabs/OverviewTab'
 import OrdersTab from './tabs/OrdersTab'
+import MedsTab from './tabs/MedsTab'
 
 
 function PatientPage(props) {
@@ -79,6 +80,12 @@ function PatientPage(props) {
                 <TabPanel value={3}>
                     <OrdersTab
                         orders={patient.orders || []}
+                        updatePatient={updatePatient}
+                    />
+                </TabPanel>
+                <TabPanel value={4}>
+                    <MedsTab
+                        meds={patient.meds || []}
                         updatePatient={updatePatient}
                     />
                 </TabPanel>
