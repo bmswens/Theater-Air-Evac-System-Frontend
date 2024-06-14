@@ -64,16 +64,7 @@ function PatientPage(props) {
                             label="MEDS"
                         />
                         <Tab
-                            label="Vitals"
-                        />
-                        <Tab
                             label="Assessment"
-                        />
-                        <Tab
-                            label="Notes"
-                        />
-                        <Tab
-                            label="TCCC"
                         />
                     </TabList>
                 </Box>
