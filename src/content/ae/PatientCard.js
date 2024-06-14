@@ -11,7 +11,7 @@ import FolderIcon from '@mui/icons-material/Folder'
 import useStorage from '../../api/useStorage'
 import TCCC from '../../forms/tccc/TCCC'
 import { useNavigate } from 'react-router-dom'
-import AF3899D from '../../forms/3899/AF3899D'
+import VitalsForm from '../../forms/ae/VitalsForm'
 
 function PatientCard(props) {
     const {
@@ -20,20 +20,17 @@ function PatientCard(props) {
         dodid
     } = props
 
-    const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
+    const [patients, setPatients] = useStorage('patients', {})
+    const patient = patients[dodid]
+
+    const [docs] = useStorage(`${dodid}-documents`, [])
     const navigate = useNavigate()
     
     let tccc = null
-    let af3899 = null
-    let af3899Index = null
     for (let index in docs) {
         let doc = docs[index]
         if (doc.name === "Tactical Casualty Care Card") {
             tccc = doc
-        }
-        if (doc.name === "AF Form 3899") {
-            af3899 = doc
-            af3899Index = index
         }
     }
 
@@ -52,6 +49,23 @@ function PatientCard(props) {
     //     tempDocs.splice(af3899Index, 1, tempDoc)
     //     setDocs(tempDocs)
     // }
+
+
+
+    function updatePatient(key, value) {
+        let newPatient = {
+            ...patient,
+            [key]: value
+        }
+        setPatients({
+            ...patients,
+            [dodid]: newPatient
+        })
+    }
+
+    function addEntry(data) {
+        updatePatient("vitals", [...patient.vitals || [], data])
+    }
     
     return (
         <Grid item xs={12}>
@@ -80,7 +94,6 @@ function PatientCard(props) {
                         <Button
                             variant="contained"
                             onClick={() => setVitalsOpen(true)}
-                            disabled={af3899 === null}
                         >
                             Vitals
                         </Button>
@@ -103,16 +116,11 @@ function PatientCard(props) {
                     :
                     null
             }
-            {
-                af3899 ?
-                    <AF3899D
-                        open={vitalsOpen}
-                        close={close}
-                        entries={af3899.af3899d || []}
-                    />
-                    : 
-                    null
-            }
+            <VitalsForm
+                open={vitalsOpen}
+                close={close}
+                addEntry={addEntry}
+            />
         </Grid>
     )
 }

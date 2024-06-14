@@ -1,10 +1,12 @@
 // React
-import { Autocomplete, Box, Card, CardContent, CardHeader, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Card, CardContent, CardHeader, Grid, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
+import Graph from '../../../components/Graph'
+
 
 
 function VitalCard(props) {
-    const {title, content} = props
+    const { title, content } = props
 
     return (
         <Card>
@@ -17,6 +19,45 @@ function VitalCard(props) {
                 </Typography>
             </CardContent>
         </Card>
+    )
+}
+
+function VitalsGraphs(props) {
+
+    const { vitals } = props
+    const times = vitals.map(entry => entry.datetime)
+
+    return (
+        <Grid container spacing={1}>
+            <Grid item xs={12} md={6}>
+                <Graph
+                    title="Pulse"
+                    x={times}
+                    y={vitals.map(entry => entry.pulse)}
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Graph
+                    title="MAP"
+                    x={times}
+                    y={vitals.map(entry => entry.map)}
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Graph
+                    title="RR"
+                    x={times}
+                    y={vitals.map(entry => entry.rr)}
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Graph
+                    title="Oxygen"
+                    x={times}
+                    y={vitals.map(entry => entry.spo2)}
+                />
+            </Grid>
+        </Grid>
     )
 }
 
@@ -53,7 +94,7 @@ function OverviewTab(props) {
     return (
         <Stack spacing={1}>
             <Stack direction="row" spacing={1}>
-                {vitalsToDisplay.map((vital, index) => <Box key={index}  sx={{flexGrow: 1}}><VitalCard {...vital} /></Box>)}
+                {vitalsToDisplay.map((vital, index) => <Box key={index} sx={{ flexGrow: 1 }}><VitalCard {...vital} /></Box>)}
             </Stack>
             <TextField
                 fullWidth
@@ -77,6 +118,9 @@ function OverviewTab(props) {
                 label="Notes"
                 value={notes}
                 onChange={event => updatePatient("notes", event.target.value)}
+            />
+            <VitalsGraphs
+                vitals={vitals}
             />
         </Stack>
     )
