@@ -1,5 +1,5 @@
 // React
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, LinearProgress, Stack, Switch, TextField, Tooltip } from '@mui/material'
+import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, LinearProgress, Stack, Switch, TextField, Tooltip } from '@mui/material'
 import React from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
@@ -18,13 +18,36 @@ function SyncDialog(props) {
     const [syncURL, setSyncURL] = useLocalStorage('sync-url', 'https://med.cyberdeck.swenson.software')
     const [deleteOnSync, setDeleteOnSync] = useLocalStorage('delete-on-sync', false)
 
+    // only sync some
+    const [selected, setSelected] = React.useState([])
+
     // build stuff to push, can't be done in effect
-    const [patients, setPatients] = useLocalStorage('patients', [])
+    const [patients, setPatients] = useLocalStorage('patients', {})
+
+    // for autocomplete
+    let patientMapping = {}
+    for (let dodid in patients) {
+        let patient = patients[dodid]
+        patientMapping[`${patient.firstName} ${patient.lastName} (${dodid})`] = patient
+    }
 
     React.useEffect(() => {
+        // just going to put this here to avoid useMemo
+        let patientMapping = {}
+        for (let dodid in patients) {
+            let patient = patients[dodid]
+            patientMapping[`${patient.firstName} ${patient.lastName} (${dodid})`] = patient
+        }
         async function upload() {
             try {
                 let localPatients = { ...patients }
+                if (selected.length) {
+                    localPatients = {}
+                    for (let label of selected) {
+                        let patient = patientMapping[label]
+                        localPatients[patient.dodid] = patient
+                    }
+                }
                 for (let dodid in localPatients) {
                     let url = `${syncURL}/patients/${dodid}`
                     let patient = localPatients[dodid]
@@ -102,7 +125,7 @@ function SyncDialog(props) {
         else if (processing === "download") {
             download()
         }
-    }, [processing, deleteOnSync, patients, setPatients, syncURL])
+    }, [processing, deleteOnSync, patients, setPatients, syncURL, selected])
 
     return (
         <Dialog
@@ -122,6 +145,14 @@ function SyncDialog(props) {
                         fullWidth
                         value={syncURL}
                         onChange={event => setSyncURL(event.target.value)}
+                    />
+                    <Autocomplete
+                        fullWidth
+                        multiple
+                        value={selected}
+                        onChange={(event, newValue) => setSelected(newValue)}
+                        renderInput={params => <TextField {...params} label="To Sync" helperText="Leave blank to sync all patients." />}
+                        options={Object.keys(patientMapping)}
                     />
                     <Stack spacing={1} direction="row">
                         <FormControlLabel label="Delete After Sync" control={<Switch checked={deleteOnSync} onChange={event => setDeleteOnSync(event.target.checked)} />} />
